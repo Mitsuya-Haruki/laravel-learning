@@ -3,23 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest; // useする
 
 class PostController extends Controller
 {
     public function index(Post $post)
     {
-        /*$test = $post->orderBY('updated_at', 'DESC')->limit(2)->toSql(); //sqlの確認用
-        dd($test);*/
-
-        return view('posts.index')->with(['posts' => $post->getPaginateByLimit(2)]);  
-        //blade内で使う変数'posts'と設定。'posts'の中身にgetを使い、インスタンス化した$postを代入。
+        return view('posts.index')->with(['posts' => $post->getPaginateByLimit()]);
     }
 
     public function show(Post $post)
     {
-        //dd($post);
         return view('posts.show')->with(['post' => $post]);
     }
+
+    public function create()
+    {
+        return view('posts.create');
+    }
+
+    public function store(Post $post, PostRequest $request) // 引数をRequestからPostRequestにする
+    {
+        $input = $request['post'];
+        $post->fill($input)->save();
+        return redirect('/posts/' . $post->id);
+    }
 }
-?>
