@@ -5,7 +5,7 @@
         <title>Blog</title>
     </head>
     <body>
-        <h1>Blog Name</h1>
+        <h1 class='title'>Blog Name</h1>
         <form action="/posts" method="POST">
             @csrf
             <div class="title">
